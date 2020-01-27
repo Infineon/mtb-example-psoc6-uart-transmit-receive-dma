@@ -67,24 +67,10 @@ VERBOSE=
 # ... then code in directories named COMPONENT_foo and COMPONENT_bar will be
 # added to the build
 #
-ifeq ($(TARGET),CY8CKIT-062-WIFI-BT)
- COMPONENTS=CUSTOM_CY8CKIT_062_WIFI_BT
-endif
-ifeq ($(TARGET),CY8CKIT-062-BLE)
- COMPONENTS=CUSTOM_CY8CKIT_062_BLE
-endif
-ifeq ($(TARGET),CY8CPROTO-062-4343W)
- COMPONENTS=CUSTOM_CY8CPROTO_062_4343W
-endif
-ifeq ($(TARGET),CY8CPROTO-063-BLE)
- COMPONENTS=CUSTOM_CY8CPROTO_063_BLE
-endif
-ifeq ($(TARGET),CY8CKIT-062S2-43012)
- COMPONENTS=CUSTOM_CY8CKIT_062S2_43012
-endif
+COMPONENTS=CUSTOM_DESIGN_MODUS
 
 # Like COMPONENTS, but disable optional code that was enabled by default.
-DISABLE_COMPONENTS= BSP_DESIGN_MODUS
+DISABLE_COMPONENTS=BSP_DESIGN_MODUS
 
 # By default the build system automatically looks in the Makefile's directory
 # tree for source code and builds it. The SOURCES variable can be used to
