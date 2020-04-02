@@ -2,22 +2,22 @@
 * File Name: DmaUart.h
 *
 * Description: This file contains all the functions and variables required for
-* 			   proper operation of UART/DMA for this CE
+*              proper operation of UART/DMA for this CE
 *
 *******************************************************************************
-* Copyright (2018-2019), Cypress Semiconductor Corporation. All rights reserved.
+* (c) 2019-2020, Cypress Semiconductor Corporation. All rights reserved.
 *******************************************************************************
 * This software, including source code, documentation and related materials
-* (“Software”), is owned by Cypress Semiconductor Corporation or one of its
-* subsidiaries (“Cypress”) and is protected by and subject to worldwide patent
+* ("Software"), is owned by Cypress Semiconductor Corporation or one of its
+* subsidiaries ("Cypress") and is protected by and subject to worldwide patent
 * protection (United States and foreign), United States copyright laws and
 * international treaty provisions. Therefore, you may use this Software only
 * as provided in the license agreement accompanying the software package from
-* which you obtained this Software (“EULA”).
+* which you obtained this Software ("EULA").
 *
-* If no EULA applies, Cypress hereby grants you a personal, nonexclusive,
+* If no EULA applies, Cypress hereby grants you a personal, non-exclusive,
 * non-transferable license to copy, modify, and compile the Software source
-* code solely for use in connection with Cypress’s integrated circuit products.
+* code solely for use in connection with Cypress's integrated circuit products.
 * Any reproduction, modification, translation, compilation, or representation
 * of this Software except as specified above is prohibited without the express
 * written permission of Cypress.
@@ -30,8 +30,8 @@
 * Software or any product or circuit described in the Software. Cypress does
 * not authorize its products for use in any products where a malfunction or
 * failure of the Cypress product may reasonably be expected to result in
-* significant property damage, injury or death (“High Risk Product”). By
-* including Cypress’s product in a High Risk Product, the manufacturer of such
+* significant property damage, injury or death ("High Risk Product"). By
+* including Cypress's product in a High Risk Product, the manufacturer of such
 * system or application assumes all risk of such use and in doing so agrees to
 * indemnify Cypress against all liability.
 *******************************************************************************/
@@ -50,7 +50,7 @@ extern uint8_t tx_dma_error;   /* TxDma error flag */
 extern uint8_t rx_dma_done;    /* RxDma done flag */
 
 /*******************************************************************************
-* Function Name: ConfigureRxDma
+* Function Name: configure_rx_dma
 ********************************************************************************
 *
 * Summary:
@@ -63,43 +63,43 @@ extern uint8_t rx_dma_done;    /* RxDma done flag */
 *  None
 *
 *******************************************************************************/
-void ConfigureRxDma(uint8_t* BufferA, uint8_t* BufferB, cy_stc_sysint_t* intConfig)
+void configure_rx_dma(uint8_t* buffer_a, uint8_t* buffer_b, cy_stc_sysint_t* int_config)
 {
-	cy_en_dma_status_t dma_init_status;
+    cy_en_dma_status_t dma_init_status;
 
     /* Initialize descriptor 1 */
     dma_init_status = Cy_DMA_Descriptor_Init(&RxDma_Descriptor_0, &RxDma_Descriptor_0_config);
-	if(dma_init_status!=CY_DMA_SUCCESS)
+    if (dma_init_status!=CY_DMA_SUCCESS)
     {
         handle_error();
     }
 
     /* Initialize descriptor 2 */
     dma_init_status = Cy_DMA_Descriptor_Init(&RxDma_Descriptor_1, &RxDma_Descriptor_1_config);
-	if(dma_init_status!=CY_DMA_SUCCESS)
+    if (dma_init_status!=CY_DMA_SUCCESS)
     {
         handle_error();
     }
 
     dma_init_status = Cy_DMA_Channel_Init(RxDma_HW, RxDma_CHANNEL, &RxDma_channelConfig);
-	if(dma_init_status!=CY_DMA_SUCCESS)
+    if (dma_init_status!=CY_DMA_SUCCESS)
     {
         handle_error();
     }
 
     /* Set source and destination address for descriptor 1 */
     Cy_DMA_Descriptor_SetSrcAddress(&RxDma_Descriptor_0, (uint32_t *) &KIT_UART_HW->RX_FIFO_RD);
-    Cy_DMA_Descriptor_SetDstAddress(&RxDma_Descriptor_0, (uint32_t *) BufferA);
+    Cy_DMA_Descriptor_SetDstAddress(&RxDma_Descriptor_0, (uint32_t *) buffer_a);
 
     /* Set source and destination address for descriptor 2 */
     Cy_DMA_Descriptor_SetSrcAddress(&RxDma_Descriptor_1, (uint32_t *) &KIT_UART_HW->RX_FIFO_RD);
-    Cy_DMA_Descriptor_SetDstAddress(&RxDma_Descriptor_1, (uint32_t *) BufferB);
+    Cy_DMA_Descriptor_SetDstAddress(&RxDma_Descriptor_1, (uint32_t *) buffer_b);
 
     Cy_DMA_Channel_SetDescriptor(RxDma_HW, RxDma_CHANNEL, &RxDma_Descriptor_0);
 
     /* Initialize and enable interrupt from RxDma */
-    Cy_SysInt_Init  (intConfig, &RxDmaComplete);
-    NVIC_EnableIRQ(intConfig->intrSrc);
+    Cy_SysInt_Init  (int_config, &rx_dma_complete);
+    NVIC_EnableIRQ(int_config->intrSrc);
 
     /* Enable DMA interrupt source. */
     Cy_DMA_Channel_SetInterruptMask(RxDma_HW, RxDma_CHANNEL, CY_DMA_INTR_MASK);
@@ -110,7 +110,7 @@ void ConfigureRxDma(uint8_t* BufferA, uint8_t* BufferB, cy_stc_sysint_t* intConf
 }
 
 /*******************************************************************************
-* Function Name: ConfigureTxDma
+* Function Name: configure_tx_dma
 ********************************************************************************
 *
 * Summary:
@@ -123,24 +123,24 @@ void ConfigureRxDma(uint8_t* BufferA, uint8_t* BufferB, cy_stc_sysint_t* intConf
 *  None
 *
 *******************************************************************************/
-void ConfigureTxDma(uint8_t* BufferA, cy_stc_sysint_t* intConfig)
+void configure_tx_dma(uint8_t* buffer_a, cy_stc_sysint_t* int_config)
 {
     cy_en_dma_status_t dma_init_status;
 
     /* Init descriptor */
     dma_init_status = Cy_DMA_Descriptor_Init(&TxDma_Descriptor_0, &TxDma_Descriptor_0_config);
-	if(dma_init_status!=CY_DMA_SUCCESS)
+    if (dma_init_status!=CY_DMA_SUCCESS)
     {
         handle_error();
     }
     dma_init_status = Cy_DMA_Channel_Init(TxDma_HW, TxDma_CHANNEL, &TxDma_channelConfig);
-	if(dma_init_status!=CY_DMA_SUCCESS)
+    if (dma_init_status!=CY_DMA_SUCCESS)
     {
         handle_error();
     }
 
     /* Set source and destination for descriptor 1 */
-    Cy_DMA_Descriptor_SetSrcAddress(&TxDma_Descriptor_0, (uint32_t *) BufferA);
+    Cy_DMA_Descriptor_SetSrcAddress(&TxDma_Descriptor_0, (uint32_t *) buffer_a);
     Cy_DMA_Descriptor_SetDstAddress(&TxDma_Descriptor_0, (uint32_t *) &KIT_UART_HW->TX_FIFO_WR);
 
     /* Set next descriptor to NULL to stop the chain execution after descriptor 1
@@ -149,8 +149,8 @@ void ConfigureTxDma(uint8_t* BufferA, cy_stc_sysint_t* intConfig)
     Cy_DMA_Descriptor_SetNextDescriptor(Cy_DMA_Channel_GetCurrentDescriptor(TxDma_HW, TxDma_CHANNEL), NULL);
 
     /* Initialize and enable the interrupt from TxDma */
-    Cy_SysInt_Init  (intConfig, &TxDmaComplete);
-    NVIC_EnableIRQ(intConfig->intrSrc);
+    Cy_SysInt_Init  (int_config, &tx_dma_complete);
+    NVIC_EnableIRQ(int_config->intrSrc);
 
     /* Enable DMA interrupt source */
     Cy_DMA_Channel_SetInterruptMask(TxDma_HW, TxDma_CHANNEL, CY_DMA_INTR_MASK);
@@ -164,7 +164,7 @@ void ConfigureTxDma(uint8_t* BufferA, cy_stc_sysint_t* intConfig)
 
 
 /*******************************************************************************
-* Function Name: RxDmaComplete
+* Function Name: rx_dma_complete
 ********************************************************************************
 *
 * Summary:
@@ -178,25 +178,25 @@ void ConfigureTxDma(uint8_t* BufferA, cy_stc_sysint_t* intConfig)
 *  None
 *
 *******************************************************************************/
-void RxDmaComplete(void)
+void rx_dma_complete(void)
 {
     Cy_DMA_Channel_ClearInterrupt(RxDma_HW, RxDma_CHANNEL);
 
     /* Check interrupt cause to capture errors. */
     if (CY_DMA_INTR_CAUSE_COMPLETION == Cy_DMA_Channel_GetStatus(RxDma_HW, RxDma_CHANNEL))
     {
-		rx_dma_done = 1;
-	}
-	else
-	{
-		/* DMA error occurred while RX operations */
-		rx_dma_error = 1;
-	}
+        rx_dma_done = 1;
+    }
+    else
+    {
+        /* DMA error occurred while RX operations */
+        rx_dma_error = 1;
+    }
 }
 
 
 /*******************************************************************************
-* Function Name: TxDmaComplete
+* Function Name: tx_dma_complete
 ********************************************************************************
 *
 * Summary:
@@ -210,7 +210,7 @@ void RxDmaComplete(void)
 *  None
 *
 *******************************************************************************/
-void TxDmaComplete(void)
+void tx_dma_complete(void)
 {
     /* Check interrupt cause to capture errors.
     *  Note that next descriptor is NULL to stop descriptor execution */
@@ -220,12 +220,7 @@ void TxDmaComplete(void)
         /* DMA error occurred while TX operations */
         tx_dma_error = 1;
     }
-	Cy_DMA_Channel_ClearInterrupt(TxDma_HW, TxDma_CHANNEL);
+    Cy_DMA_Channel_ClearInterrupt(TxDma_HW, TxDma_CHANNEL);
 }
 
 /* [] END OF FILE */
-
-
-
-
-

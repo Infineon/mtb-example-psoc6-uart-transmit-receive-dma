@@ -4,20 +4,22 @@
 * Description: This example demonstrates the UART transmit and receive
 *              operation using DMA.
 *
+* Related Document: See Readme.md
+*
 *******************************************************************************
-* Copyright (2019-20), Cypress Semiconductor Corporation. All rights reserved.
+* (c) 2019-2020, Cypress Semiconductor Corporation. All rights reserved.
 *******************************************************************************
 * This software, including source code, documentation and related materials
-* (“Software”), is owned by Cypress Semiconductor Corporation or one of its
-* subsidiaries (“Cypress”) and is protected by and subject to worldwide patent
+* ("Software"), is owned by Cypress Semiconductor Corporation or one of its
+* subsidiaries ("Cypress") and is protected by and subject to worldwide patent
 * protection (United States and foreign), United States copyright laws and
 * international treaty provisions. Therefore, you may use this Software only
 * as provided in the license agreement accompanying the software package from
-* which you obtained this Software (“EULA”).
+* which you obtained this Software ("EULA").
 *
-* If no EULA applies, Cypress hereby grants you a personal, nonexclusive,
+* If no EULA applies, Cypress hereby grants you a personal, non-exclusive,
 * non-transferable license to copy, modify, and compile the Software source
-* code solely for use in connection with Cypress’s integrated circuit products.
+* code solely for use in connection with Cypress's integrated circuit products.
 * Any reproduction, modification, translation, compilation, or representation
 * of this Software except as specified above is prohibited without the express
 * written permission of Cypress.
@@ -30,8 +32,8 @@
 * Software or any product or circuit described in the Software. Cypress does
 * not authorize its products for use in any products where a malfunction or
 * failure of the Cypress product may reasonably be expected to result in
-* significant property damage, injury or death (“High Risk Product”). By
-* including Cypress’s product in a High Risk Product, the manufacturer of such
+* significant property damage, injury or death ("High Risk Product"). By
+* including Cypress's product in a High Risk Product, the manufacturer of such
 * system or application assumes all risk of such use and in doing so agrees to
 * indemnify Cypress against all liability.
 *******************************************************************************/
@@ -84,11 +86,11 @@ int main(void)
     /* Set up the device based on configurator selections */
     init_cycfg_all();
 
-    uint8_t RxDmaUartBufferA[BUFFER_SIZE];
-    uint8_t RxDmaUartBufferB[BUFFER_SIZE];
-    cy_en_scb_uart_status_t initstatus;
+    uint8_t rx_dma_uart_buffer_a[BUFFER_SIZE];
+    uint8_t rx_dma_uart_buffer_b[BUFFER_SIZE];
+    cy_en_scb_uart_status_t init_status;
     cy_stc_scb_uart_context_t KIT_UART_context;
-    uint32_t activeDescr = DMA_DESCR0; /* flag to control which descriptor to use */
+    uint32_t active_descr = DMA_DESCR0; /* flag to control which descriptor to use */
 
     cy_stc_sysint_t KIT_UART_INT_cfg =
     {
@@ -98,79 +100,79 @@ int main(void)
 
     cy_stc_sysint_t RX_DMA_INT_cfg =
     {
-    	.intrSrc      = (IRQn_Type)RxDma_IRQ,
-    	.intrPriority = 7u,
+        .intrSrc      = (IRQn_Type)RxDma_IRQ,
+        .intrPriority = 7u,
     };
 
     cy_stc_sysint_t TX_DMA_INT_cfg =
     {
-    	.intrSrc      = (IRQn_Type)TxDma_IRQ,
-    	.intrPriority = 7u,
+        .intrSrc      = (IRQn_Type)TxDma_IRQ,
+        .intrPriority = 7u,
     };
 
-	/* Configure DMA Rx and Tx channels for operation */
-	ConfigureRxDma(RxDmaUartBufferA, RxDmaUartBufferB, &RX_DMA_INT_cfg);
-	ConfigureTxDma(RxDmaUartBufferA, &TX_DMA_INT_cfg);
+    /* Configure DMA Rx and Tx channels for operation */
+    configure_rx_dma(rx_dma_uart_buffer_a, rx_dma_uart_buffer_b, &RX_DMA_INT_cfg);
+    configure_tx_dma(rx_dma_uart_buffer_a, &TX_DMA_INT_cfg);
 
-	/* Initialize and enable interrupt from UART. The UART interrupt sources
-	*  are enabled in the Component GUI */
-	Cy_SysInt_Init(&KIT_UART_INT_cfg, &Isr_UART);
-	NVIC_EnableIRQ(KIT_UART_INT_cfg.intrSrc);
+    /* Initialize and enable interrupt from UART. The UART interrupt sources
+    *  are enabled in the Component GUI */
+    Cy_SysInt_Init(&KIT_UART_INT_cfg, &Isr_UART);
+    NVIC_EnableIRQ(KIT_UART_INT_cfg.intrSrc);
 
-	/* Start UART operation */
-	initstatus = Cy_SCB_UART_Init(KIT_UART_HW, &KIT_UART_config, &KIT_UART_context);
-	if(initstatus!=CY_SCB_UART_SUCCESS)
-	{
-		handle_error();
-	}
-	Cy_SCB_UART_Enable(KIT_UART_HW);
+    /* Start UART operation */
+    init_status = Cy_SCB_UART_Init(KIT_UART_HW, &KIT_UART_config, &KIT_UART_context);
+    if (init_status!=CY_SCB_UART_SUCCESS)
+    {
+        handle_error();
+    }
+    Cy_SCB_UART_Enable(KIT_UART_HW);
 
-	/* Transmit header to the terminal */
+    /* Transmit header to the terminal */
     /* \x1b[2J\x1b[;H - ANSI ESC sequence for clear screen */
-	Cy_SCB_UART_PutString(KIT_UART_HW, "\x1b[2J\x1b[;H");
+    Cy_SCB_UART_PutString(KIT_UART_HW, "\x1b[2J\x1b[;H");
 
-	Cy_SCB_UART_PutString(KIT_UART_HW, "************************************************************\r\n");
-	Cy_SCB_UART_PutString(KIT_UART_HW, "PSoC 6 MCU UART Transmit and Receive using DMA\r\n");
-	Cy_SCB_UART_PutString(KIT_UART_HW, "************************************************************\r\n\n");
-	Cy_SCB_UART_PutString(KIT_UART_HW, ">> Start typing to see the echo on the screen \r\n\n");
+    Cy_SCB_UART_PutString(KIT_UART_HW, "************************************************************\r\n");
+    Cy_SCB_UART_PutString(KIT_UART_HW, "PSoC 6 MCU UART Transmit and Receive using DMA\r\n");
+    Cy_SCB_UART_PutString(KIT_UART_HW, "************************************************************\r\n\n");
+    Cy_SCB_UART_PutString(KIT_UART_HW, ">> Start typing to see the echo on the screen \r\n\n");
 
-	/* Initialize flags */
-	rx_dma_error = 0;
-	tx_dma_error = 0;
-	uart_error = 0;
-	rx_dma_done = 0;
+    /* Initialize flags */
+    rx_dma_error = 0;
+    tx_dma_error = 0;
+    uart_error = 0;
+    rx_dma_done = 0;
     __enable_irq();
  
-    while(1)
+    while (1)
     {
-    	/* Indicate status if RxDma error or TxDma error or UART error occurs */
-		if((rx_dma_error==1) | (tx_dma_error==1) | (uart_error==1))
-		{
-			handle_error();
-		}
+        /* Indicate status if RxDma error or TxDma error or UART error occurs */
+        if ((rx_dma_error==1) | (tx_dma_error==1) | (uart_error==1))
+        {
+            handle_error();
+        }
 
-		/* Handle RxDma complete */
-		if(rx_dma_done==1)
-		{
-			/* Ping Pong between RxDmaUartBufferA and RxDmaUartBufferB */
-			/* Ping Pong buffers give firmware time to pull the data out of one or the other buffer */
-			if (DMA_DESCR0 == activeDescr)
-			{
-				/* Set source RX Buffer A as source for TxDMA */
-				Cy_DMA_Descriptor_SetSrcAddress(&TxDma_Descriptor_0, (uint32_t *) RxDmaUartBufferA);
-				activeDescr = DMA_DESCR1;
-			}
-			else
-			{
-				/* Set source RX Buffer B as source for TxDMA */
-				Cy_DMA_Descriptor_SetSrcAddress(&TxDma_Descriptor_0, (uint32_t *) RxDmaUartBufferB);
-				activeDescr = DMA_DESCR0;
-			}
+        /* Handle RxDma complete */
+        if (rx_dma_done==1)
+        {
+            /* Ping Pong between rx_dma_uart_buffer_a and rx_dma_uart_buffer_b */
+            /* Ping Pong buffers give firmware time to pull the data out of one or the other buffer */
+            if (DMA_DESCR0 == active_descr)
+            {
+                /* Set source RX Buffer A as source for TxDMA */
+                Cy_DMA_Descriptor_SetSrcAddress(&TxDma_Descriptor_0, (uint32_t *) rx_dma_uart_buffer_a);
+                active_descr = DMA_DESCR1;
+            }
+            else
+            {
+                /* Set source RX Buffer B as source for TxDMA */
+                Cy_DMA_Descriptor_SetSrcAddress(&TxDma_Descriptor_0, (uint32_t *) rx_dma_uart_buffer_b);
+                active_descr = DMA_DESCR0;
+            }
 
-			Cy_DMA_Channel_SetDescriptor(TxDma_HW, TxDma_CHANNEL, &TxDma_Descriptor_0);
-			Cy_DMA_Channel_Enable(TxDma_HW, TxDma_CHANNEL);
-			rx_dma_done = 0;
-		}
+            Cy_DMA_Channel_SetDescriptor(TxDma_HW, TxDma_CHANNEL, &TxDma_Descriptor_0);
+            Cy_DMA_Channel_Enable(TxDma_HW, TxDma_CHANNEL);
+            rx_dma_done = 0;
+        }
     }
 }
 
