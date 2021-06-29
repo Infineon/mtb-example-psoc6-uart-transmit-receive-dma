@@ -86,7 +86,42 @@
                         <Param id="inFlash" value="true"/>
                     </Personality>
                 </Block>
+                <Block location="ioss[0].port[0].pin[0]">
+                    <Alias value="CYBSP_WCO_IN"/>
+                    <Personality template="mxs40pin" version="1.1">
+                        <Param id="DriveModes" value="CY_GPIO_DM_ANALOG"/>
+                        <Param id="initialState" value="1"/>
+                        <Param id="vtrip" value="CY_GPIO_VTRIP_CMOS"/>
+                        <Param id="isrTrigger" value="CY_GPIO_INTR_DISABLE"/>
+                        <Param id="sioInputBuffer" value="false"/>
+                        <Param id="sioTrip" value="CY_SIO_VTRIP_CMOS"/>
+                        <Param id="sioRef" value="CY_SIO_VREF_PINREF"/>
+                        <Param id="sioVoltage" value="CY_SIO_VOH_1_00"/>
+                        <Param id="slewRate" value="CY_GPIO_SLEW_FAST"/>
+                        <Param id="driveStrength" value="CY_GPIO_DRIVE_1_2"/>
+                        <Param id="sioOutputBuffer" value="true"/>
+                        <Param id="inFlash" value="true"/>
+                    </Personality>
+                </Block>
+                <Block location="ioss[0].port[0].pin[1]">
+                    <Alias value="CYBSP_WCO_OUT"/>
+                    <Personality template="mxs40pin" version="1.1">
+                        <Param id="DriveModes" value="CY_GPIO_DM_ANALOG"/>
+                        <Param id="initialState" value="1"/>
+                        <Param id="vtrip" value="CY_GPIO_VTRIP_CMOS"/>
+                        <Param id="isrTrigger" value="CY_GPIO_INTR_DISABLE"/>
+                        <Param id="sioInputBuffer" value="false"/>
+                        <Param id="sioTrip" value="CY_SIO_VTRIP_CMOS"/>
+                        <Param id="sioRef" value="CY_SIO_VREF_PINREF"/>
+                        <Param id="sioVoltage" value="CY_SIO_VOH_1_00"/>
+                        <Param id="slewRate" value="CY_GPIO_SLEW_FAST"/>
+                        <Param id="driveStrength" value="CY_GPIO_DRIVE_1_2"/>
+                        <Param id="sioOutputBuffer" value="true"/>
+                        <Param id="inFlash" value="true"/>
+                    </Personality>
+                </Block>
                 <Block location="ioss[0].port[0].pin[4]">
+                    <Alias value="CYBSP_USER_BTN1"/>
                     <Alias value="CYBSP_USER_BTN"/>
                 </Block>
                 <Block location="ioss[0].port[10].pin[0]">
@@ -114,6 +149,7 @@
                     <Alias value="CYBSP_THERM_OUT"/>
                 </Block>
                 <Block location="ioss[0].port[11].pin[1]">
+                    <Alias value="CYBSP_USER_LED1"/>
                     <Alias value="CYBSP_USER_LED"/>
                 </Block>
                 <Block location="ioss[0].port[11].pin[2]">
@@ -134,11 +170,32 @@
                 <Block location="ioss[0].port[11].pin[7]">
                     <Alias value="CYBSP_QSPI_SCK"/>
                 </Block>
+                <Block location="ioss[0].port[12].pin[0]">
+                    <Alias value="CYBSP_BT_POWER"/>
+                </Block>
+                <Block location="ioss[0].port[12].pin[2]">
+                    <Alias value="CYBSP_BT_DEVICE_WAKE"/>
+                </Block>
+                <Block location="ioss[0].port[12].pin[3]">
+                    <Alias value="CYBSP_BT_HOST_WAKE"/>
+                </Block>
                 <Block location="ioss[0].port[12].pin[6]">
                     <Alias value="CYBSP_ECO_IN"/>
                 </Block>
                 <Block location="ioss[0].port[12].pin[7]">
                     <Alias value="CYBSP_ECO_OUT"/>
+                </Block>
+                <Block location="ioss[0].port[13].pin[4]">
+                    <Alias value="CYBSP_BT_UART_RX"/>
+                </Block>
+                <Block location="ioss[0].port[13].pin[5]">
+                    <Alias value="CYBSP_BT_UART_TX"/>
+                </Block>
+                <Block location="ioss[0].port[13].pin[6]">
+                    <Alias value="CYBSP_BT_UART_RTS"/>
+                </Block>
+                <Block location="ioss[0].port[13].pin[7]">
+                    <Alias value="CYBSP_BT_UART_CTS"/>
                 </Block>
                 <Block location="ioss[0].port[5].pin[0]">
                     <Alias value="CYBSP_SPI_MOSI"/>
@@ -246,9 +303,6 @@
                 <Block location="peri[0].div_16[0]">
                     <Alias value="CYBSP_DEBUG_UART_CLK_DIV"/>
                 </Block>
-                <Block location="peri[0].div_16[1]">
-                    <Alias value="CYBSP_BT_UART_CLK_DIV"/>
-                </Block>
                 <Block location="peri[0].div_8[0]">
                     <Personality template="mxs40peripheralclock" version="1.0">
                         <Param id="intDivider" value="109"/>
@@ -307,14 +361,9 @@
                 <Block location="srss[0].clock[0]">
                     <Personality template="mxs40sysclocks" version="1.2"/>
                 </Block>
-                <Block location="srss[0].clock[0].altsystickclk[0]">
-                    <Personality template="mxs40altsystick" version="1.0">
-                        <Param id="sourceClock" value="lfclk"/>
-                    </Personality>
-                </Block>
                 <Block location="srss[0].clock[0].bakclk[0]">
                     <Personality template="mxs40bakclk" version="1.0">
-                        <Param id="sourceClock" value="lfclk"/>
+                        <Param id="sourceClock" value="wco"/>
                     </Personality>
                 </Block>
                 <Block location="srss[0].clock[0].fastclk[0]">
@@ -352,7 +401,7 @@
                 </Block>
                 <Block location="srss[0].clock[0].lfclk[0]">
                     <Personality template="mxs40lfclk" version="1.1">
-                        <Param id="sourceClock" value="ilo"/>
+                        <Param id="sourceClock" value="wco"/>
                     </Personality>
                 </Block>
                 <Block location="srss[0].clock[0].pathmux[0]">
@@ -406,10 +455,14 @@
                         <Param id="divider" value="1"/>
                     </Personality>
                 </Block>
-                <Block location="srss[0].clock[0].timerclk[0]">
-                    <Personality template="mxs40timerclk" version="1.0">
-                        <Param id="sourceClock" value="imo"/>
-                        <Param id="timerDivider" value="1"/>
+                <Block location="srss[0].clock[0].wco[0]">
+                    <Personality template="mxs40wco" version="1.0">
+                        <Param id="clockPort" value="CY_SYSCLK_WCO_BYPASSED"/>
+                        <Param id="clockLostDetection" value="false"/>
+                        <Param id="clockSupervisor" value="CY_SYSCLK_WCO_CSV_SUPERVISOR_ILO"/>
+                        <Param id="lossWindow" value="CY_SYSCLK_CSV_LOSS_4_CYCLES"/>
+                        <Param id="lossAction" value="CY_SYSCLK_CSV_ERROR_FAULT"/>
+                        <Param id="accuracyPpm" value="150"/>
                     </Personality>
                 </Block>
             </BlockConfig>
@@ -431,6 +484,14 @@
                     <Port name="scb[10].tr_rx_req[0]"/>
                 </Net>
                 <Net>
+                    <Port name="ioss[0].port[0].pin[0].analog[0]"/>
+                    <Port name="srss[0].clock[0].wco[0].wco_in[0]"/>
+                </Net>
+                <Net>
+                    <Port name="ioss[0].port[0].pin[1].analog[0]"/>
+                    <Port name="srss[0].clock[0].wco[0].wco_out[0]"/>
+                </Net>
+                <Net>
                     <Port name="ioss[0].port[5].pin[4].digital_inout[0]"/>
                     <Port name="scb[10].uart_rx[0]"/>
                 </Net>
@@ -443,6 +504,20 @@
                     <Port name="scb[10].clock[0]"/>
                 </Net>
             </Netlist>
+        </Device>
+        <Device mpn="CYW43012TC0KFFBH">
+            <BlockConfig>
+                <Block location="bt[0].power[0]">
+                    <Personality template="connectivity_bt" version="1.0">
+                        <Param id="btHostWake" value="false"/>
+                        <Param id="hostWakePin" value=""/>
+                        <Param id="hostWakeIrqEvent" value="CYCFG_BT_WAKE_EVENT_ACTIVE_LOW"/>
+                        <Param id="devWakePin" value=""/>
+                        <Param id="devWakePolarity" value="CYCFG_BT_WAKE_EVENT_ACTIVE_LOW"/>
+                    </Personality>
+                </Block>
+            </BlockConfig>
+            <Netlist/>
         </Device>
     </Devices>
     <ConfiguratorData/>

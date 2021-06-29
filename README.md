@@ -2,7 +2,7 @@
 
 This code example demonstrates the UART transmit and receive operation in PSoC® 6 MCU using DMA. The application uses a serial terminal to read data and echoes what is received. UART is configured to do both transmit and receive operations.
 
-[Provide feedback on this Code Example.](https://cypress.co1.qualtrics.com/jfe/form/SV_1NTns53sK2yiljn?Q_EED=eyJVbmlxdWUgRG9jIElkIjoiQ0UyMTk2NTYiLCJTcGVjIE51bWJlciI6IjAwMi0xOTY1NiIsIkRvYyBUaXRsZSI6IlBTb0MgNiBNQ1U6IFNDQiBVQVJUIFRyYW5zbWl0IGFuZCBSZWNlaXZlIHdpdGggRE1BIiwicmlkIjoieWVrdCIsIkRvYyB2ZXJzaW9uIjoiMi4xLjAiLCJEb2MgTGFuZ3VhZ2UiOiJFbmdsaXNoIiwiRG9jIERpdmlzaW9uIjoiTUNEIiwiRG9jIEJVIjoiSUNXIiwiRG9jIEZhbWlseSI6IlBTT0MifQ==)
+[Provide feedback on this Code Example.](https://cypress.co1.qualtrics.com/jfe/form/SV_1NTns53sK2yiljn?Q_EED=eyJVbmlxdWUgRG9jIElkIjoiQ0UyMTk2NTYiLCJTcGVjIE51bWJlciI6IjAwMi0xOTY1NiIsIkRvYyBUaXRsZSI6IlBTb0MgNiBNQ1U6IFNDQiBVQVJUIFRyYW5zbWl0IGFuZCBSZWNlaXZlIHdpdGggRE1BIiwicmlkIjoieWVrdCIsIkRvYyB2ZXJzaW9uIjoiMi4yLjAiLCJEb2MgTGFuZ3VhZ2UiOiJFbmdsaXNoIiwiRG9jIERpdmlzaW9uIjoiTUNEIiwiRG9jIEJVIjoiSUNXIiwiRG9jIEZhbWlseSI6IlBTT0MifQ==)
 
 ## Requirements
 
@@ -220,6 +220,7 @@ Document Title: *CE219656 - PSoC 6 MCU: SCB UART Transmit and Receive with DMA*
 | 1.2.0   | Updated to support ModusToolbox software v2.1 |
 | 2.0.0   | Major update to support ModusToolbox software v2.2, added support for new kits<br /> This version is not backward compatible with ModusToolbox software v2.1  |
 | 2.1.0   | Added support for new kits |
+| 2.2.0   | Updating custom design for target CYSBSYSKIT-01, to add support for wireless device |
 ------
 
 All other trademarks or registered trademarks referenced herein are the property of their respective owners.
