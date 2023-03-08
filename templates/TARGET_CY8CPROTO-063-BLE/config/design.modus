@@ -85,7 +85,7 @@
                         <Param id="DATA_TRANSFER_WIDTH_0" value="ByteToWord"/>
                         <Param id="X_NUM_OF_ELEMENTS_0" value="1"/>
                         <Param id="X_SRC_INCREMENT_0" value="1"/>
-                        <Param id="X_DST_INCREMENT_0" value="0"/>
+                        <Param id="X_DST_INCREMENT_0" value="1"/>
                         <Param id="CRC_0" value="false"/>
                         <Param id="Y_NUM_OF_ELEMENTS_0" value="1"/>
                         <Param id="Y_SRC_INCREMENT_0" value="1"/>
@@ -209,7 +209,7 @@
                 </Block>
                 <Block location="peri[0].div_8[2]">
                     <Personality template="pclk" version="3.0">
-                        <Param id="intDivider" value="78"/>
+                        <Param id="intDivider" value="109"/>
                         <Param id="fracDivider" value="0"/>
                         <Param id="startOnReset" value="true"/>
                     </Personality>
@@ -278,9 +278,15 @@
                         <Param id="fracDivider" value="0"/>
                     </Personality>
                 </Block>
+                <Block location="srss[0].clock[0].fll[0]">
+                    <Personality template="fll" version="4.0">
+                        <Param id="configuration" value="auto"/>
+                        <Param id="desiredFrequency" value="100.000"/>
+                    </Personality>
+                </Block>
                 <Block location="srss[0].clock[0].hfclk[0]">
                     <Personality template="hfclk" version="3.0">
-                        <Param id="sourceClockNumber" value="1"/>
+                        <Param id="sourceClockNumber" value="0"/>
                         <Param id="divider" value="1"/>
                     </Personality>
                 </Block>
@@ -326,14 +332,14 @@
                 </Block>
                 <Block location="srss[0].clock[0].periclk[0]">
                     <Personality template="periclk" version="2.0">
-                        <Param id="divider" value="2"/>
+                        <Param id="divider" value="1"/>
                     </Personality>
                 </Block>
                 <Block location="srss[0].clock[0].pll[0]">
                     <Personality template="pll" version="3.0">
                         <Param id="lowFrequencyMode" value="false"/>
                         <Param id="configuration" value="auto"/>
-                        <Param id="desiredFrequency" value="144.000"/>
+                        <Param id="desiredFrequency" value="48.000"/>
                         <Param id="optimization" value="MinPower"/>
                     </Personality>
                 </Block>

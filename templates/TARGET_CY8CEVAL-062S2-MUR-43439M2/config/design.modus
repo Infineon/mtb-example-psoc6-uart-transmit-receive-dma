@@ -7,7 +7,7 @@
                     <Personality template="dap" version="2.0">
                         <Param id="dbgMode" value="SWD"/>
                         <Param id="traceModeParallel" value="0"/>
-                        <Param id="traceModeSerial" value="true"/>
+                        <Param id="traceModeSerial" value="false"/>
                     </Personality>
                 </Block>
                 <Block location="cpuss[0].dw0[0].chan[16]">
@@ -25,8 +25,7 @@
                         <Param id="DESCR_SELECTION" value="0"/>
                         <Param id="TRIG_OUT_TYPE_0" value="CY_DMA_1ELEMENT"/>
                         <Param id="INTR_OUT_0" value="CY_DMA_DESCR"/>
-                        <Param id="ENABLE_CHAINING_0" value="true"/>
-                        <Param id="CHAIN_TO_0" value="0"/>
+                        <Param id="ENABLE_CHAINING_0" value="false"/>
                         <Param id="CHAN_STATE_COMPL_0" value="CY_DMA_CHANNEL_ENABLED"/>
                         <Param id="TRIG_IN_TYPE_0" value="CY_DMA_1ELEMENT"/>
                         <Param id="TRIG_DEACT_0" value="CY_DMA_RETRIG_4CYC"/>
@@ -53,7 +52,7 @@
                         <Param id="NUM_OF_DESCRIPTORS" value="2"/>
                         <Param id="PREEMPTABLE" value="false"/>
                         <Param id="BUFFERABLE" value="false"/>
-                        <Param id="DESCR_SELECTION" value="1"/>
+                        <Param id="DESCR_SELECTION" value="0"/>
                         <Param id="TRIG_OUT_TYPE_0" value="CY_DMA_1ELEMENT"/>
                         <Param id="INTR_OUT_0" value="CY_DMA_1ELEMENT"/>
                         <Param id="ENABLE_CHAINING_0" value="true"/>
@@ -700,14 +699,7 @@
                         <Param id="startOnReset" value="true"/>
                     </Personality>
                 </Block>
-                <Block location="peri[0].div_8[7]">
-                    <Alias value="CYBSP_TRACE_CLK_DIV"/>
-                    <Personality template="pclk" version="3.0">
-                        <Param id="intDivider" value="1"/>
-                        <Param id="fracDivider" value="0"/>
-                        <Param id="startOnReset" value="true"/>
-                    </Personality>
-                </Block>
+                <Block location="peri[0].div_8[7]"/>
                 <Block location="scb[0]">
                     <Alias value="KIT_UART"/>
                     <Personality template="uart" version="3.0">
@@ -889,20 +881,12 @@
             </BlockConfig>
             <Netlist>
                 <Net>
-                    <Port name="cpuss[0].dap[0].clock_trace_in[0]"/>
-                    <Port name="peri[0].div_8[7].clk[0]"/>
-                </Net>
-                <Net>
                     <Port name="cpuss[0].dap[0].swj_swclk_tclk[0]"/>
                     <Port name="ioss[0].port[6].pin[7].digital_in[0]"/>
                 </Net>
                 <Net>
                     <Port name="cpuss[0].dap[0].swj_swdio_tms[0]"/>
                     <Port name="ioss[0].port[6].pin[6].digital_inout[0]"/>
-                </Net>
-                <Net>
-                    <Port name="cpuss[0].dap[0].swj_swo_tdo[0]"/>
-                    <Port name="ioss[0].port[6].pin[4].digital_out[0]"/>
                 </Net>
                 <Net>
                     <Port name="cpuss[0].dw0[0].chan[16].tr_in[0]"/>
@@ -975,6 +959,19 @@
                     </Arm>
                 </Mux>
             </Netlist>
+        </Device>
+        <Device mpn="LBEE5KL1YN/CYW43439KUBG">
+            <BlockConfig>
+                <Block location="bt[0].power[0]">
+                    <Personality template="connectivity_bt" version="1.0">
+                        <Param id="hostWakePin" value=""/>
+                        <Param id="hostWakeIrqEvent" value="CYCFG_BT_WAKE_EVENT_ACTIVE_LOW"/>
+                        <Param id="devWakePin" value=""/>
+                        <Param id="devWakePolarity" value="CYCFG_BT_WAKE_EVENT_ACTIVE_LOW"/>
+                    </Personality>
+                </Block>
+            </BlockConfig>
+            <Netlist/>
         </Device>
     </Devices>
     <ConfiguratorData/>

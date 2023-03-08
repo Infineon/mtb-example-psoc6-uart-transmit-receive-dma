@@ -55,7 +55,7 @@
                         <Param id="NUM_OF_DESCRIPTORS" value="2"/>
                         <Param id="PREEMPTABLE" value="false"/>
                         <Param id="BUFFERABLE" value="false"/>
-                        <Param id="DESCR_SELECTION" value="0"/>
+                        <Param id="DESCR_SELECTION" value="1"/>
                         <Param id="TRIG_OUT_TYPE_0" value="CY_DMA_1ELEMENT"/>
                         <Param id="INTR_OUT_0" value="CY_DMA_1ELEMENT"/>
                         <Param id="ENABLE_CHAINING_0" value="true"/>
@@ -282,33 +282,9 @@
                 </Block>
                 <Block location="ioss[0].port[5].pin[0]">
                     <Alias value="CYBSP_D2"/>
-                    <Personality template="pin" version="3.0">
-                        <Param id="DriveModes" value="CY_GPIO_DM_HIGHZ"/>
-                        <Param id="initialState" value="1"/>
-                        <Param id="nonSec" value="1"/>
-                        <Param id="vtrip" value="CY_GPIO_VTRIP_CMOS"/>
-                        <Param id="isrTrigger" value="CY_GPIO_INTR_DISABLE"/>
-                        <Param id="slewRate" value="CY_GPIO_SLEW_FAST"/>
-                        <Param id="driveStrength" value="CY_GPIO_DRIVE_1_2"/>
-                        <Param id="sioOutputBuffer" value="true"/>
-                        <Param id="pullUpRes" value="CY_GPIO_PULLUP_RES_DISABLE"/>
-                        <Param id="inFlash" value="true"/>
-                    </Personality>
                 </Block>
                 <Block location="ioss[0].port[5].pin[1]">
                     <Alias value="CYBSP_D3"/>
-                    <Personality template="pin" version="3.0">
-                        <Param id="DriveModes" value="CY_GPIO_DM_STRONG_IN_OFF"/>
-                        <Param id="initialState" value="1"/>
-                        <Param id="nonSec" value="1"/>
-                        <Param id="vtrip" value="CY_GPIO_VTRIP_CMOS"/>
-                        <Param id="isrTrigger" value="CY_GPIO_INTR_DISABLE"/>
-                        <Param id="slewRate" value="CY_GPIO_SLEW_FAST"/>
-                        <Param id="driveStrength" value="CY_GPIO_DRIVE_1_2"/>
-                        <Param id="sioOutputBuffer" value="true"/>
-                        <Param id="pullUpRes" value="CY_GPIO_PULLUP_RES_DISABLE"/>
-                        <Param id="inFlash" value="true"/>
-                    </Personality>
                 </Block>
                 <Block location="ioss[0].port[5].pin[6]">
                     <Alias value="CYBSP_D4"/>
